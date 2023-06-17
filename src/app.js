@@ -6,7 +6,7 @@ function formatDate(timestamp) {
     }
     let minutes = date.getMinutes();
     if (minutes < 10) {
-        minutes = `0${minute}`;
+        minutes = `0${minutes}`;
     }
     let days = ["Sunday", "Monday", "Thuesday", "Wednesday", "Tursday", "Friday", "Saturday"];
     let day = days[date.getDay()];
@@ -16,8 +16,11 @@ function formatDate(timestamp) {
 
 
 function displayTemperature(response) {
+
+  degree = response.data.main.temp;
+
     let temperatureElement = document.querySelector("#temperature");
-    temperatureElement.innerHTML = Math.round(response.data.main.temp);
+    temperatureElement.innerHTML = Math.round(degree);
 
     console.log(response);
 
@@ -57,7 +60,33 @@ function handleSubmit(event) {
     search(cityInputElement.value);
 }
 
+function converFahrenheit(event) {
+ event.preventDefault();
+ let fahrenheitTemperature = (degree * 9) / 5 + 32;
+ let temperatureElement = document.querySelector("#temperature");
+ celciuceLink.classList.remove("active");
+ fahrenheitLink.classList.add("active");
+
+ temperatureElement.innerHTML = Math.round(fahrenheitTemperature);
+}
+
+function converCelciuce(event) {
+ event.preventDefault();
+ let temperatureElement = document.querySelector("#temperature");
+ celciuceLink.classList.add("active");
+ fahrenheitLink.classList.remove("active");
+ temperatureElement.innerHTML = Math.round(degree);
+}
+
 search("New York");
 
 let form = document.querySelector("#search-form");
 form.addEventListener("submit", handleSubmit);
+
+let fahrenheitLink = document.querySelector("#fahrenheit-link");
+fahrenheitLink.addEventListener("click", converFahrenheit);
+
+let celciuceLink = document.querySelector("#celciuce-link");
+celciuceLink.addEventListener("click", converCelciuce);
+
+let degree = null;
